@@ -1,5 +1,4 @@
 const placeholders = ["Project One", "Project Two", "Project Three"];
-const titleLetters = "PROJECTS".split("");
 
 export function ProjectsSection() {
   return (
@@ -7,19 +6,20 @@ export function ProjectsSection() {
       id="projects"
       className="scroll-mt-28 rounded-2xl border border-border bg-card p-6 sm:p-8 lg:grid lg:min-h-[36rem] lg:grid-cols-[8rem,1fr] lg:gap-8"
     >
-      <aside
-        aria-hidden="true"
-        className="hidden h-full flex-col items-center justify-between border-r border-border pr-4 lg:flex"
-      >
-        {titleLetters.map((letter, index) => (
-          <span
-            key={`${letter}-${index}`}
-            className="text-4xl font-extrabold leading-none tracking-tight text-foreground/90 xl:text-5xl"
-          >
-            {letter}
-          </span>
-        ))}
-      </aside>
+
+      {/* Left edge */}
+      <div className="pointer-events-none fixed left-25 top-1/2 z-0 -translate-y-1/2 -translate-x-1/2">
+        <h2 className="-rotate-90 text-[clamp(5rem,18vw,16rem)] font-black tracking-tight text-foreground/10 whitespace-nowrap">
+          Projects
+        </h2>
+      </div>
+
+      {/* Right edge */}
+      <div className="pointer-events-none fixed right-25 top-1/2 z-0 -translate-y-1/2 translate-x-1/2">
+        <h2 className="rotate-90 text-[clamp(5rem,18vw,16rem)] font-black tracking-tight text-foreground/10 whitespace-nowrap">
+          Projects
+        </h2>
+      </div>
 
       <div>
         <h2 className="text-2xl font-semibold tracking-tight">Projects</h2>
