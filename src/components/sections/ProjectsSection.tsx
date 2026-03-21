@@ -4,24 +4,24 @@ export function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="scroll-mt-28 rounded-2xl border border-border bg-card p-6 sm:p-8 lg:grid lg:min-h-[36rem] lg:grid-cols-[8rem,1fr] lg:gap-8"
+      className="relative flex min-h-screen w-full items-center overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-8"
     >
 
       {/* Left edge */}
-      <div className="pointer-events-none fixed left-25 top-1/2 z-0 -translate-y-1/2 -translate-x-1/2">
+      <div className="pointer-events-none absolute left-25 top-1/2 z-0 -translate-y-1/2 -translate-x-1/2">
         <h2 className="-rotate-90 text-[clamp(5rem,18vw,16rem)] font-black tracking-tight text-foreground/10 whitespace-nowrap">
           Projects
         </h2>
       </div>
 
       {/* Right edge */}
-      <div className="pointer-events-none fixed right-25 top-1/2 z-0 -translate-y-1/2 translate-x-1/2">
+      <div className="pointer-events-none absolute right-25 top-1/2 z-0 -translate-y-1/2 translate-x-1/2">
         <h2 className="rotate-90 text-[clamp(5rem,18vw,16rem)] font-black tracking-tight text-foreground/10 whitespace-nowrap">
           Projects
         </h2>
       </div>
 
-      <div>
+      <div className="relative z-10 mx-auto w-full max-w-5xl rounded-2xl border border-border bg-card p-6 sm:p-8">
         <h2 className="text-2xl font-semibold tracking-tight">Projects</h2>
         <p className="mt-2 text-muted-foreground">
           A preview grid for your featured work.

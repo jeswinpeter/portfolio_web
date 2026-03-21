@@ -2,7 +2,10 @@ import Image from "next/image";
 
 export function HeroSection() {
   return (
-    <section id="hero" className="relative min-h-screen w-full overflow-hidden pt-28">
+    <section
+      id="hero"
+      className="relative min-h-screen w-full overflow-hidden pt-28"
+    >
       <div className="grid min-h-[calc(100vh-7rem)] grid-cols-1 items-end px-6 pb-8 sm:px-10 sm:pb-10 lg:grid-cols-2 lg:px-14 lg:pb-14">
         <div className="pointer-events-none absolute bottom-0 left-0">
           <Image
