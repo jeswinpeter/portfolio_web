@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, type Transition } from 'framer-motion';
 import { useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -61,7 +61,7 @@ const slotPositions: Record<SlotKey, { x: number; y: number; scale: number; opac
   hiddenRight: { x: 520, y: 20, scale: 0.72, opacity: 0, zIndex: 0 },
 };
 
-const cardTransition = { duration: 0.55, ease: [0.22, 0.61, 0.36, 1] };
+const cardTransition: Transition = { duration: 0.55, ease: [0.22, 0.61, 0.36, 1] };
 
 const statusStyles: Record<ProjectStatus, string> = {
   Ongoing: 'border-amber-400/50 bg-amber-500/10 text-amber-200',
