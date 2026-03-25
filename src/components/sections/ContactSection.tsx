@@ -1,7 +1,6 @@
 const socialLinks = [
-  { label: "GitHub", href: "https://github.com/your-username" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/your-profile" },
-  { label: "X", href: "https://x.com/your-handle" },
+  { label: "GitHub", href: "https://github.com/jeswinpeter" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/jeswin-peter-019873294" },
 ];
 
 export function ContactSection() {
