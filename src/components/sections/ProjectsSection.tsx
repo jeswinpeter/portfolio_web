@@ -1,7 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useEffect, useMemo, useState, type MouseEvent } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type ProjectStatus = 'Ongoing' | 'Deployed' | 'Upcoming';
@@ -80,18 +80,20 @@ const getSlotForIndex = (index: number, current: number, total: number): SlotKey
 export function ProjectsSection() {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const sectionInView = useInView(sectionRef, { amount: 0.4, once: false });
 
   useEffect(() => {
-    if (isPaused) {
+    if (isPaused || !sectionInView) {
       return undefined;
     }
 
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       setCurrent((prev) => (prev + 1) % projects.length);
     }, 4000);
 
-    return () => clearInterval(interval);
-  }, [isPaused]);
+    return () => clearTimeout(timeout);
+  }, [isPaused, current, sectionInView]);
 
   const goNext = () => {
     setIsPaused(false);
@@ -121,6 +123,7 @@ export function ProjectsSection() {
     <section
       id="projects"
       className="relative flex min-h-screen w-full items-center overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-8"
+      ref={sectionRef}
       onClick={handleSectionClick}
     >
       {/* Edge watermarks to frame the section */}
