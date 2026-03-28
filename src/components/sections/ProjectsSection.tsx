@@ -15,9 +15,9 @@ const projects: Array<{
   status: ProjectStatus;
 }> = [
   {
-    id: 'atlas',
-    title: 'Project Atlas',
-    description: 'A performant data viz dashboard with streaming metrics and anomaly alerts.',
+    id: 'seed',
+    title: 'Seed Website',
+    description: 'A single promt website created with antigravity. Showcases modern scroll animation and clever use of tools like Flow and Whisk',
     type: 'Website',
     status: 'Ongoing',
   },
@@ -29,18 +29,18 @@ const projects: Array<{
     status: 'Ongoing',
   },
   {
-    id: 'pulse',
-    title: 'Pulse Mobile',
-    description: 'Wellness companion that pairs AI journaling with adaptive breathing sessions.',
-    type: 'Mobile app',
+    id: 'portfolio',
+    title: 'Portfolio',
+    description: 'A personal portfolio website. Built with a modern, animated design using Next.js, React 19, Tailwind CSS, ShadCN components, Framer Motion for animations, and custom WebGL backgrounds—designed to showcase both technical skills and creative approach to building. ',
+    type: 'Website',
     status: 'Ongoing',
   },
   {
-    id: 'forge',
-    title: 'Forge Build Tools',
-    description: 'DX toolkit that cuts CI feedback loops with smart caching and previews.',
-    type: 'Website',
-    status: 'Upcoming',
+    id: 'fitpro',
+    title: 'Fitpro',
+    description: 'Fitpro is a mobile app to help tracki your progress in gym. It is intended to store workout history and suggest new workout with incresed rep or weight for progressively overloading.',
+    type: 'Mobile app',
+    status: 'Ongoing',
   },
   {
     id: 'tidal',

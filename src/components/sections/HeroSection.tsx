@@ -1,3 +1,4 @@
+import SplitText from "@/components/SplitText";
 import Image from "next/image";
 
 export function HeroSection() {
@@ -24,9 +25,22 @@ export function HeroSection() {
           <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
             Portfolio
           </p>
-          <h1 className="mt-2 text-[clamp(4.5rem,16vw,15rem)] font-black leading-[0.82] tracking-tight">
+          {/* <h1 className="mt-2 text-[clamp(4.5rem,16vw,15rem)] font-black leading-[0.82] tracking-tight">
             How you doin&apos;
-          </h1>
+          </h1> */}
+          <SplitText
+            text="How you doin'"
+            className="mt-2 text-[clamp(4.5rem,16vw,15rem)] font-black leading-[0.82] tracking-tight"
+            delay={50}
+            duration={2.5}
+            ease="power3.out"
+            splitType="chars"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="right"
+          />
         </div>
       </div>
     </section>
