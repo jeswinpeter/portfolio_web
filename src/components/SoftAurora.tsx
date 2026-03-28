@@ -177,8 +177,8 @@ export default function SoftAurora({
   octaveDecay = 0.1,
   layerOffset = 0,
   colorSpeed = 1.0,
-  enableMouseInteraction = true,
-  mouseInfluence = 0.55
+  enableMouseInteraction = false,
+  mouseInfluence = 0
 }: SoftAuroraProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 

@@ -2,7 +2,7 @@ import { LazyAurora } from "@/components/LazyAurora";
 
 const milestones = [
   { year: "2023 SEP", title: "Started BTech at SJCET", kind: "Education" },
-  { year: "2025 DEC", title: "Built First Major App", kind: "Mini Project" },
+  { year: "2025 DEC", title: "Built First Major App", kind: "Project" },
   { year: "2026 JAN", title: "Started Internship at Wesprime", kind: "Experience" },
 ];
 
@@ -31,7 +31,7 @@ export function TimelineSection() {
       />
     
 
-      <div className="mx-auto w-full max-w-5xl rounded-2xl border border-border bg-card/80 p-6 backdrop-blur-md sm:p-8">
+      <div className="mx-auto w-full max-w-5xl rounded-2xl border border-border bg-card/75 p-6 backdrop-blur-md sm:p-8">
 
         <ol className="mt-6 space-y-3">
           {milestones.map((item) => (
