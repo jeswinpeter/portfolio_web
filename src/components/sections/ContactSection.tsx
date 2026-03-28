@@ -1,3 +1,5 @@
+import CurvedLoop from '@/components/CurvedLoop';
+
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/jeswinpeter" },
   { label: "LinkedIn", href: "https://linkedin.com/in/jeswin-peter-019873294" },
@@ -7,7 +9,7 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="flex min-h-screen w-full items-center px-4 pb-16 pt-28 sm:px-6 lg:px-8"
+      className="flex flex-col min-h-screen w-full items-center px-4 pb-16 pt-28 sm:px-6 lg:px-8"
     >
       <div className="mx-auto w-full max-w-5xl rounded-2xl border border-border bg-card p-6 sm:p-8">
         <h2 className="text-2xl font-semibold tracking-tight">Contact Me</h2>
@@ -34,7 +36,20 @@ export function ContactSection() {
             </li>
           ))}
         </ul>
+        
+      </div>
+      <div className="mt-auto w-full">
+        <CurvedLoop 
+          marqueeText="Joey ✦ Doesn't ✦ Share✦ Food ✦"
+          speed={2}
+          curveAmount={80}
+          direction="right"
+          interactive
+          className="custom-text-style"
+        />
       </div>
     </section>
+
+    
   );
 }
