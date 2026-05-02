@@ -51,6 +51,8 @@
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  /* --background: oklch(0 0 0);
+  --foreground: oklch(1 0 0); */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -126,5 +128,23 @@
   }
   html {
     @apply font-sans scroll-smooth;
+  }
+}
+
+/* Rotation for timeline page */
+
+@layer utilities {
+  @keyframes spin-360 {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .spin-medium {
+    animation: spin-360 30s linear infinite;
+  }
+
+  .spin-medium-reverse {
+    animation: spin-360 30s linear infinite reverse;
   }
 }
