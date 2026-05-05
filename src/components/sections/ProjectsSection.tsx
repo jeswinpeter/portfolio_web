@@ -43,9 +43,9 @@ const projects: Array<{
     status: 'Ongoing',
   },
   {
-    id: 'tidal',
-    title: 'Tidal Commerce',
-    description: 'Composable storefront starter focused on speed, accessibility, and storytelling.',
+    id: 'textile',
+    title: 'Urban Weaves',
+    description: 'A modern e-commerce web application for textile products designed to showcase a seamless shopping experience. Users can browse through a curated collection of textiles and explore different categories. The application is built with cutting-edge technologies to ensure fast performance, responsive design across all devices, and an intuitive user interface.',
     type: 'Website',
     status: 'Deployed',
   },
@@ -54,14 +54,16 @@ const projects: Array<{
 type SlotKey = -1 | 0 | 1 | 'hiddenLeft' | 'hiddenRight';
 
 const slotPositions: Record<SlotKey, { x: number; y: number; scale: number; opacity: number; zIndex: number }> = {
-  [-1]: { x: -320, y: 32, scale: 0.86, opacity: 0.6, zIndex: 10 },
+  [-1]: { x: 320, y: 32, scale: 0.86, opacity: 0.6, zIndex: 10 },
   0: { x: 0, y: 0, scale: 1, opacity: 1, zIndex: 40 },
-  1: { x: 320, y: 32, scale: 0.86, opacity: 0.6, zIndex: 10 },
-  hiddenLeft: { x: -520, y: 20, scale: 0.72, opacity: 0, zIndex: 0 },
-  hiddenRight: { x: 520, y: 20, scale: 0.72, opacity: 0, zIndex: 0 },
+  1: { x: -320, y: 32, scale: 0.86, opacity: 0.6, zIndex: 10 },
+  hiddenLeft: { x: 520, y: 20, scale: 0.72, opacity: 0, zIndex: 0 },
+  hiddenRight: { x: -520, y: 20, scale: 0.72, opacity: 0, zIndex: 0 },
 };
 
-const cardTransition: Transition = { duration: 0.55, ease: [0.22, 0.61, 0.36, 1] };
+const cardTransition: Transition = { duration: 0.555, ease: [0.22, 0.61, 0.36, 1] };
+
+const previewLimit = 350;
 
 const statusStyles: Record<ProjectStatus, string> = {
   Ongoing: 'border-amber-400/50 bg-amber-500/10 text-amber-200',
@@ -77,9 +79,24 @@ const getSlotForIndex = (index: number, current: number, total: number): SlotKey
   return normalized < total / 2 ? 'hiddenRight' : 'hiddenLeft';
 };
 
+const getPreviewText = (text: string, limit: number) => {
+  if (text.length <= limit) {
+    return text;
+  }
+
+  const cutoff = text.slice(0, limit);
+  const lastSpace = cutoff.lastIndexOf(' ');
+  const trimmed = (lastSpace > 0 ? cutoff.slice(0, lastSpace) : cutoff).trimEnd();
+
+  return `${trimmed}...`;
+};
+
 export function ProjectsSection() {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [collapseDirection, setCollapseDirection] = useState<'left' | 'right' | null>(null);
+  const [collapseTarget, setCollapseTarget] = useState<string | null>(null);
+  const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
   const sectionInView = useInView(sectionRef, { amount: 0.4, once: false });
 
@@ -95,12 +112,53 @@ export function ProjectsSection() {
     return () => clearTimeout(timeout);
   }, [isPaused, current, sectionInView]);
 
+  useEffect(() => {
+    if (!collapseTarget) {
+      return undefined;
+    }
+
+    const timeout = setTimeout(() => {
+      setCollapseTarget(null);
+      setCollapseDirection(null);
+    }, (cardTransition.duration ?? 0.55) * 1000);
+
+    return () => clearTimeout(timeout);
+  }, [collapseTarget]);
+
   const goNext = () => {
+    if (isPaused) {
+      setCollapseDirection('right');
+      setCollapseTarget(projects[current]?.id ?? null);
+    }
     setIsPaused(false);
+    if (isPaused) {
+      if (collapseTimerRef.current) {
+        clearTimeout(collapseTimerRef.current);
+      }
+      const durationMs = (cardTransition.duration ?? 0.55) * 1000;
+      collapseTimerRef.current = setTimeout(() => {
+        setCurrent((prev) => (prev + 1) % projects.length);
+      }, durationMs);
+      return;
+    }
     setCurrent((prev) => (prev + 1) % projects.length);
   };
   const goPrev = () => {
+    if (isPaused) {
+      setCollapseDirection('left');
+      setCollapseTarget(projects[current]?.id ?? null);
+    }
     setIsPaused(false);
+    if (isPaused) {
+      if (collapseTimerRef.current) {
+        clearTimeout(collapseTimerRef.current);
+      }
+      const durationMs = (cardTransition.duration ?? 0.55) * 1000;
+      collapseTimerRef.current = setTimeout(() => {
+        setCurrent((prev) => (prev - 1 + projects.length) % projects.length);
+      }, durationMs);
+      return;
+    }
     setCurrent((prev) => (prev - 1 + projects.length) % projects.length);
   };
 
@@ -150,18 +208,40 @@ export function ProjectsSection() {
             <ChevronLeft className="h-6 w-6" />
           </motion.button>
 
-          <div className="relative flex h-[30rem] w-full max-w-4xl items-center justify-center">
+          {/*Card styling*/}
+          <motion.div
+            layout
+            transition={cardTransition}
+            className={`relative flex w-full max-w-4xl items-center justify-center ${
+              isPaused ? 'h-[min(75vh,42rem)]' : 'h-[30rem]'
+            }`}
+          >
             {orderedProjects.map((project, index) => {
               const slot = getSlotForIndex(index, current, orderedProjects.length);
               const position = slotPositions[slot];
               const isActive = slot === 0;
-              const targetScale = isActive && isPaused ? position.scale + 0.08 : position.scale;
+              const isExpanded = isActive && isPaused;
+              const isCollapsing = !isPaused && collapseTarget === project.id;
+              const description = project.description.trim();
+              const previewText = getPreviewText(description, previewLimit);
+              const isTruncated = description.length > previewLimit;
+              const cardSizeClass = isExpanded
+                ? 'w-full max-w-4xl h-[min(75vh,42rem)]'
+                : 'w-full max-w-md h-[26rem]';
+              const descriptionClass = isExpanded
+                ? 'mt-4 flex-1 min-h-0 overflow-y-auto pr-2 text-lg leading-relaxed text-muted-foreground'
+                : 'mt-4 flex-1 min-h-0 overflow-hidden text-lg leading-relaxed text-muted-foreground';
+              const targetScale = isExpanded ? position.scale : position.scale + (isActive ? 0.04 : 0);
+              const originX = isCollapsing && collapseDirection ? (collapseDirection === 'right' ? 1 : 0) : 0.5;
 
               return (
                 <motion.article
+                  layout
                   key={project.id}
                   onClick={(event) => handleCardClick(event, isActive)}
-                  className="absolute w-full max-w-md rounded-3xl border border-border bg-card/95 px-10 py-12 shadow-[0_25px_90px_-35px_rgba(15,23,42,0.65)] backdrop-blur"
+                  className={`absolute ${
+                    cardSizeClass
+                  } flex min-h-0 flex-col rounded-3xl border border-border bg-card/95 px-10 py-12 shadow-[0_25px_90px_-35px_rgba(15,23,42,0.65)] backdrop-blur`}
                   animate={{
                     x: position.x,
                     y: position.y,
@@ -171,16 +251,23 @@ export function ProjectsSection() {
                     filter: isActive ? 'blur(0px)' : 'blur(0.15rem)',
                   }}
                   transition={cardTransition}
-                  style={{ pointerEvents: isActive ? 'auto' : 'none' }}
+                  style={{ pointerEvents: isActive ? 'auto' : 'none', originX, originY: 0.5 }}
                 >
                   <div className="flex flex-wrap items-center gap-3 text-left">
-                    <h3 className="text-3xl font-bold tracking-tight">{project.title}</h3>
+                    <h3 className="text-4xl font-bold tracking-tight">{project.title}</h3>
                     <span className="inline-flex items-center rounded-full border border-border/70 bg-background/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-foreground/70 shadow-inner">
                       {project.type}
                     </span>
                   </div>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{project.description}</p>
-                  <div className="mt-10 flex flex-wrap gap-2 text-xs font-semibold tracking-wide">
+                  <p className={descriptionClass}>
+                    {isExpanded ? description : previewText}
+                    {!isExpanded && isTruncated ? (
+                      <span className="ml-2 inline-flex items-center rounded-full border border-border/70 bg-background/70 px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-foreground/70">
+                        more
+                      </span>
+                    ) : null}
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-2 text-sm font-semibold tracking-wide">
                     <span className={`rounded-full border px-3 py-1 ${statusStyles[project.status]}`}>
                       {project.status}
                     </span>
@@ -191,7 +278,7 @@ export function ProjectsSection() {
                 </motion.article>
               );
             })}
-          </div>
+          </motion.div>
 
           <motion.button
             whileHover={{ scale: 1.08 }}
