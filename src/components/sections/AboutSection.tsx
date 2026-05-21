@@ -1,5 +1,19 @@
 import { Caveat } from "next/font/google";
 
+{/* <div
+    className="absolute inset-0 z-0"
+    style={{
+      backgroundImage: `
+        linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+        linear-gradient(to bottom, #f0f0f0 1px, transparent 1px),
+        radial-gradient(circle 800px at 0% 200px, #d5c5ff, transparent)
+      `,
+      backgroundSize: "96px 64px, 96px 64px, 100% 100%",
+    }}
+  /> */}
+
+  
+
 const caveat = Caveat({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -28,7 +42,16 @@ export function AboutSection() {
         </div>
 
         {/* Content container */}
-        <div className="bg-blue-100 relative z-10 flex w-full flex-col gap-8 px-6 py-24 sm:px-8 lg:h-screen lg:flex-row lg:justify-around lg:px-12 lg:py-0">
+        <div className="relative z-10 flex w-full flex-col gap-8 px-6 py-24 sm:px-8 lg:h-screen lg:flex-row lg:justify-around lg:px-12 lg:py-0"
+              style={{
+                backgroundImage: `
+                  linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+                  linear-gradient(to bottom, #f0f0f0 1px, transparent 1px),
+                  radial-gradient(circle 800px at 0% 200px, #d5c5ff, transparent)
+                `,
+                backgroundSize: "96px 64px, 96px 64px, 100% 100%",
+              }}
+        >
 
           {/* 1st sticky note */}
           <div className="relative w-full lg:top-[20%] lg:w-xl lg:max-w-3xl lg:max-h-sm">
