@@ -178,11 +178,28 @@ export function ProjectsSection() {
   };
 
   return (
-    <section
+    <div className="min-h-screen w-full bg-[#f8fafc] relative">
+      {/* Top Fade Grid Background */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+            linear-gradient(to bottom, #e2e8f0 1px, transparent 1px)
+          `,
+          backgroundSize: "96px 64px",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 90% 80% at 50% 0%, #000 60%, transparent 100%)",
+          maskImage:
+            "radial-gradient(ellipse 90% 80% at 50% 0%, #000 60%, transparent 100%)",
+        }}
+      />
+         <section
       id="projects"
       className="relative flex min-h-screen w-full items-center overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-8"
       ref={sectionRef}
       onClick={handleSectionClick}
+      
     >
       {/* Edge watermarks to frame the section */}
       <div className="pointer-events-none absolute left-25 top-1/2 z-0 -translate-y-1/2 -translate-x-1/2">
@@ -292,5 +309,7 @@ export function ProjectsSection() {
         </div>
       </div>
     </section>
+    </div>
+    
   );
 }
